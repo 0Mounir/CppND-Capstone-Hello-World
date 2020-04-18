@@ -22,8 +22,8 @@ void Pacman::UpdatePosition() {
   }
 
   // Wrap the Pacman around to the beginning if going off of the screen.
-  pos_x = fmod(pos_x + grid_width, grid_width);
-  pos_y = fmod(pos_y + grid_height, grid_height);
+  pos_x = fmod(pos_x + screen_width/width, screen_width/width);
+  pos_y = fmod(pos_y + screen_height/height, screen_height/height);
 }
 
 // Inefficient method to check if cell is occupied by pacman.

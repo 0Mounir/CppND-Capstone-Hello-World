@@ -2,7 +2,7 @@
 #include <iostream>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
+Game::Game(std::size_t screen_width, std::size_t screen_height) : pacman(screen_width, screen_height)
 {
     SDL_Point point;
     point.x = 0;
@@ -64,9 +64,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 }
 
 void Game::Update() {
+    if (!pacman.alive) return;
+
+    pacman.UpdatePosition();
 
 }
 
 int Game::GetScore() const { return score; }
+
 
 

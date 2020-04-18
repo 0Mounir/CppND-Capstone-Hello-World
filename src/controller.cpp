@@ -27,5 +27,10 @@ void Controller::HandleInput(bool &running, Pacman &pacman) const {
           break;
       }
     }
+    else
+    {
+        pacman.direction = Pacman::Direction::kStop;
+    }
   }
 }
+

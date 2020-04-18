@@ -41,8 +41,11 @@ Renderer::~Renderer() {
 void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food, std::vector<SDL_Point> const &wall) {
     SDL_Rect wallBlock;
     SDL_Rect foodBlock;
+    SDL_Rect pacmanBlock;
     wallBlock.w = grid_width;
     wallBlock.h = grid_height;
+    pacmanBlock.w = pacman.width;
+    pacmanBlock.h = pacman.height;
     foodBlock.w = screen_width / (grid_width*2);
     foodBlock.h = screen_height / (grid_height*2);
 
@@ -68,6 +71,13 @@ void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food, s
         SDL_RenderFillRect(sdl_renderer, &foodBlock);
     }
 
+    //render pacman
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0x00, 0xFF);
+    pacmanBlock.x = pacman.pos_x * pacmanBlock.w;
+    pacmanBlock.y = pacman.pos_y * pacmanBlock.h;
+
+    SDL_RenderFillRect(sdl_renderer, &pacmanBlock);
+
     // Update Screen
     SDL_RenderPresent(sdl_renderer);
 }
@@ -76,5 +86,6 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+
 
 
