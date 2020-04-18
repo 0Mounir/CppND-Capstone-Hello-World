@@ -38,12 +38,43 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Pacman const pacman, std::set<SDL_Point> const &food, std::vector<SDL_Point> const &maze) {
+void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food, std::vector<SDL_Point> const &wall) {
+    SDL_Rect wallBlock;
+    SDL_Rect foodBlock;
+    wallBlock.w = grid_width;
+    wallBlock.h = grid_height;
+    foodBlock.w = screen_width / (grid_width*2);
+    foodBlock.h = screen_height / (grid_height*2);
 
+    // Clear screen
+    SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+    SDL_RenderClear(sdl_renderer);
+
+    //render maze walls
+    SDL_SetRenderDrawColor(sdl_renderer, 0xDC, 0x50, 0x00, 0xFF);
+    for(auto it=wall.begin(); it!=wall.end(); ++it)
+    {
+        wallBlock.x = (*it).x * grid_width;
+        wallBlock.y = (*it).y * grid_height;
+        SDL_RenderFillRect(sdl_renderer, &wallBlock);
+    }
+
+    //render food
+    SDL_SetRenderDrawColor(sdl_renderer, 0x50, 0x50, 0xFF, 0xFF);
+    for(auto it=food.begin(); it!=food.end(); ++it)
+    {
+        foodBlock.x = (*it).x * grid_width + grid_width/4;
+        foodBlock.y = (*it).y * grid_height + grid_height/4;
+        SDL_RenderFillRect(sdl_renderer, &foodBlock);
+    }
+
+    // Update Screen
+    SDL_RenderPresent(sdl_renderer);
 }
 
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+
 

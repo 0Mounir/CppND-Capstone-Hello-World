@@ -2,7 +2,24 @@
 #include <iostream>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height){
+Game::Game(std::size_t grid_width, std::size_t grid_height)
+{
+    SDL_Point point;
+    point.x = 0;
+    point.y = 0;
+    for(int i=0; i<20; ++i)
+    {
+        ++point.y;
+        point.x=0;
+        for(int j=0; j<20; ++j)
+        {
+            ++point.x;
+            if('#' == maze[i][j])
+                wall.push_back(point);
+            else
+                food.push_back(point);
+        }
+    }
 
 }
 
@@ -21,7 +38,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, pacman);
     Update();
-    renderer.Render(pacman, food, maze);
+    renderer.Render(pacman, food, wall);
 
     frame_end = SDL_GetTicks();
 
@@ -51,4 +68,5 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
+
 

@@ -12,7 +12,7 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Pacman const pacman, std::set<SDL_Point> const &food, std::vector<SDL_Point> const &maze);
+  void Render(Pacman const pacman, std::vector<SDL_Point> const &food, std::vector<SDL_Point> const &maze);
   void UpdateWindowTitle(int score, int fps);
 
  private:
@@ -26,4 +26,5 @@ class Renderer {
 };
 
 #endif
+
 
