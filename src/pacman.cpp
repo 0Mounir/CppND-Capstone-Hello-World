@@ -1,4 +1,4 @@
-#include "snake.h"
+#include "pacman.h"
 #include <cmath>
 #include <iostream>
 

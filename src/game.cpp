@@ -19,9 +19,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput();
+    controller.HandleInput(running, pacman);
     Update();
-    renderer.Render();
+    renderer.Render(pacman, food, maze);
 
     frame_end = SDL_GetTicks();
 
@@ -51,3 +51,4 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
+

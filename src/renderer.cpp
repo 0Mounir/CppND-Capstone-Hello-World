@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Pacman const pacman, vector<SDL_Point> const &food,vector<SDL_Point> const &maze) {
+void Renderer::Render(Pacman const pacman, std::set<SDL_Point> const &food, std::vector<SDL_Point> const &maze) {
 
 }
 
@@ -46,3 +46,4 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+

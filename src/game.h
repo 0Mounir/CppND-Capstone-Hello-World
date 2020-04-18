@@ -18,8 +18,8 @@ class Game {
 
  private:
   Pacman pacman;
-  vector<SDL_Point> maze;
-  set<SDL_Point> food;
+  std::vector<SDL_Point> maze;
+  std::set<SDL_Point> food;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -31,3 +31,4 @@ class Game {
 };
 
 #endif
+

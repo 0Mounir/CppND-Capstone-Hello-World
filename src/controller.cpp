@@ -23,7 +23,7 @@ void Controller::HandleInput(bool &running, Pacman &pacman) const {
           break;
 
         case SDLK_RIGHT:
-           pacman.direction = Pacman::Direction::KRight;
+           pacman.direction = Pacman::Direction::kRight;
           break;
       }
     }
