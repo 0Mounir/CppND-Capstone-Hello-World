@@ -66,9 +66,19 @@ void Game::Update() {
     if (!pacman.alive) return;
 
     pacman.UpdatePosition();
+    for(auto it=food.begin(); it!=food.end(); ++it)
+    {
+        if(pacman.TryToEat(it->x, it->y))
+        {
+            ++score;
+            food.erase(it);
+            break;
+        }
+    }
 
 }
 
 int Game::GetScore() const { return score; }
+
 
 

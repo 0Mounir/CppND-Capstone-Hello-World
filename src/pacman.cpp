@@ -2,12 +2,21 @@
 #include <cmath>
 #include <iostream>
 
+// Try to move if there is no wall
 bool Pacman::TryToMove(float x, float y){
     for(auto it=wall.begin(); it!=wall.end(); ++it){
         if(PacmanIntersect(x, width, it->x, 32) && PacmanIntersect(y, height, it->y, 32))
 	    return false;
     }
     return true;
+}
+
+//Try to eat that food
+bool Pacman::TryToEat(float x, float y){
+    if(PacmanIntersect(pos_x, width, x, 32) && PacmanIntersect(pos_y, height, y, 32))
+        return true;
+    else
+        return false;
 }
 
 void Pacman::UpdatePosition() {
@@ -34,12 +43,15 @@ void Pacman::UpdatePosition() {
         break;
   }
 
+  // Wrap the Pacman around to the beginning if going off of the screen.
+  new_x = fmod(new_x + screen_width/width, screen_width/width);
+  new_y = fmod(new_y + screen_height/height, screen_height/height);
   update = TryToMove(new_x, new_y);
+
   if(update)
   {
-      // Wrap the Pacman around to the beginning if going off of the screen.
-  	  pos_x = fmod(new_x + screen_width/width, screen_width/width);
-  	  pos_y = fmod(new_y + screen_height/height, screen_height/height);
+      pos_x = new_x;
+      pos_y = new_y;
   }
 }
 
@@ -55,4 +67,5 @@ bool Pacman::PacmanIntersect(float objectPos1, float objectLen1, float objectPos
   else
       return false;
 }
+
 
