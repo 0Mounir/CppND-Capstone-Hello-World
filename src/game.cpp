@@ -32,20 +32,26 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   std::atomic<bool> running (true);
 
-  //release monsters
+  //intialize monsters
+  std::vector<std::unique_ptr<Monster>> monsters;
   SDL_Point start;
   SDL_Point end;
   start.x = 18;
   start.y = 7;
   end.x = 18;
   end.y = 17;
-  Monster m1(start, end, running);
+  monsters.emplace_back(std::make_unique<Monster>(start, end, running));
 
   start.x = 2;
   start. y = 2;
   end.x = 2;
   end.y = 7;
-  Monster m2(start, end, running);
+  monsters.emplace_back(std::make_unique<Monster>(start, end, running));
+
+  //release monsters
+  for(auto it = monsters.begin(); it!=monsters.end(); ++it){
+      it->get()->Release();
+}
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -53,7 +59,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, pacman);
     Update();
-    renderer.Render(pacman, food, wall);
+    renderer.Render(pacman, food, wall, monsters);
 
     frame_end = SDL_GetTicks();
 
@@ -95,5 +101,6 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
+
 
 

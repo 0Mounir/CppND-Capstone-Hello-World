@@ -38,16 +38,20 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food, std::vector<SDL_Point> const &wall) {
+void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food,
+        std::vector<SDL_Point> const &wall, std::vector<std::unique_ptr<Monster>> const &monsters) {
     SDL_Rect wallBlock;
     SDL_Rect foodBlock;
     SDL_Rect pacmanBlock;
+    SDL_Rect monsterBlock;
     wallBlock.w = grid_width;
     wallBlock.h = grid_height;
     pacmanBlock.w = pacman.width;
     pacmanBlock.h = pacman.height;
     foodBlock.w = screen_width / (grid_width*2);
     foodBlock.h = screen_height / (grid_height*2);
+    monsterBlock.w = grid_width;
+    monsterBlock.h = grid_height;
 
     // Clear screen
     SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
@@ -75,8 +79,15 @@ void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food, s
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0x00, 0xFF);
     pacmanBlock.x = pacman.pos_x * pacmanBlock.w;
     pacmanBlock.y = pacman.pos_y * pacmanBlock.h;
-
     SDL_RenderFillRect(sdl_renderer, &pacmanBlock);
+
+    //render monsters
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+    for(auto it=monsters.begin(); it!=monsters.end(); ++it){
+        monsterBlock.x = it->get()->pos_x * grid_width;
+        monsterBlock.y = it->get()->pos_y * grid_height;
+        SDL_RenderFillRect(sdl_renderer, &monsterBlock);
+    }
 
     // Update Screen
     SDL_RenderPresent(sdl_renderer);
@@ -86,6 +97,7 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Pacman Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+
 
 
 
