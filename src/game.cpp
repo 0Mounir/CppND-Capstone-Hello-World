@@ -2,23 +2,22 @@
 #include <iostream>
 #include "SDL.h"
 
-Game::Game(std::size_t screen_width, std::size_t screen_height) : pacman(screen_width, screen_height)
+Game::Game(std::size_t screen_width, std::size_t screen_height) : pacman(screen_width, screen_height, wall)
 {
     SDL_Point point;
-    point.x = 0;
     point.y = 0;
-    for(int i=0; i<20; ++i)
+    for(int i=0; i<MAZE_LENGTH; ++i)
     {
-        ++point.y;
         point.x=0;
-        for(int j=0; j<20; ++j)
+        for(int j=0; j<MAZE_LENGTH; ++j)
         {
-            ++point.x;
             if('#' == maze[i][j])
                 wall.push_back(point);
             else
                 food.push_back(point);
+            ++point.x;
         }
+        ++point.y;
     }
 
 }
@@ -71,6 +70,5 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
-
 
 
