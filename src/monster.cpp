@@ -29,6 +29,5 @@ void Monster::GoMad(){
 Monster::~Monster(){
     //make sure monsters threads are joined
     monsterThread.join();
-    std::cout<<&monsterThread<<" joined, destroying object !!\n";
 }
 

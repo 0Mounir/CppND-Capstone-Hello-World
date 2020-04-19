@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-// Try to move if there is no wall
+// try to move if there is no wall
 bool Pacman::TryToMove(float x, float y){
     for(auto it=wall.begin(); it!=wall.end(); ++it){
         if(PacmanIntersect(x, width, it->x, 32) && PacmanIntersect(y, height, it->y, 32))
@@ -11,8 +11,8 @@ bool Pacman::TryToMove(float x, float y){
     return true;
 }
 
-//Try to eat that food
-bool Pacman::TryToEat(float x, float y){
+// function to check if pacman hit an object
+bool Pacman::HitObject(float x, float y){
     if(PacmanIntersect(pos_x, width, x, 32) && PacmanIntersect(pos_y, height, y, 32))
         return true;
     else
@@ -67,5 +67,6 @@ bool Pacman::PacmanIntersect(float objectPos1, float objectLen1, float objectPos
   else
       return false;
 }
+
 
 

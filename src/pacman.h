@@ -15,7 +15,7 @@ class Pacman {
         pos_x(0),
         pos_y(31) {}
   void UpdatePosition();
-  bool TryToEat(float x, float y);
+  bool HitObject(float x, float y);
 
   Direction direction = Direction::kUp;
   float speed{0.1f};
@@ -35,6 +35,7 @@ class Pacman {
 };
 
 #endif
+
 
 
 

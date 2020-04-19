@@ -21,11 +21,10 @@ class Game {
   Pacman pacman;
   std::vector<SDL_Point> wall;
   std::vector<SDL_Point> food;
+  std::vector<std::unique_ptr<Monster>> monsters;
 
-  std::random_device dev;
-  std::mt19937 engine;
-  std::uniform_int_distribution<int> random_w;
-  std::uniform_int_distribution<int> random_h;
+
+  std::atomic<bool> running;
 
   const char maze[MAZE_LENGTH][MAZE_LENGTH] = {
   {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -55,6 +54,7 @@ class Game {
 };
 
 #endif
+
 
 
 

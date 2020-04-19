@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "monster.h"
 
-Game::Game(std::size_t screen_width, std::size_t screen_height) : pacman(screen_width, screen_height, wall)
+Game::Game(std::size_t screen_width, std::size_t screen_height) : running(true), pacman(screen_width, screen_height, wall)
 {
     SDL_Point point;
     point.y = 0;
@@ -30,10 +30,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  std::atomic<bool> running (true);
 
   //intialize monsters
-  std::vector<std::unique_ptr<Monster>> monsters;
   SDL_Point start;
   SDL_Point end;
   start.x = 18;
@@ -87,10 +85,29 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 void Game::Update() {
     if (!pacman.alive) return;
 
+    // if you eat all food end game
+    if (food.empty())
+    {
+	std::cout<<"Wow you won, congratulations !!\n";
+	running = false;
+    }
+
     pacman.UpdatePosition();
+
+    // if you hit any monster end game
+    for(auto it=monsters.begin(); it!=monsters.end(); ++it){
+        if(pacman.HitObject(it->get()->pos_x, it->get()->pos_y))
+        {
+	    std::cout<<"Monster caught pacman, pray for him :(\n";
+            pacman.alive=false;
+	    running = false;
+            break;
+        }
+    }
+    // if you hit any food eat it
     for(auto it=food.begin(); it!=food.end(); ++it)
     {
-        if(pacman.TryToEat(it->x, it->y))
+        if(pacman.HitObject(it->x, it->y))
         {
             ++score;
             food.erase(it);
@@ -101,6 +118,7 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
+
 
 
 
