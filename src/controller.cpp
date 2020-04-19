@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "pacman.h"
 
-void Controller::HandleInput(bool &running, Pacman &pacman) const {
+void Controller::HandleInput(std::atomic<bool> &running, Pacman &pacman) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {

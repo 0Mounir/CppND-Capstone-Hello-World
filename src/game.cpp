@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "monster.h"
 
 Game::Game(std::size_t screen_width, std::size_t screen_height) : pacman(screen_width, screen_height, wall)
 {
@@ -29,7 +30,22 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true;
+  std::atomic<bool> running (true);
+
+  //release monsters
+  SDL_Point start;
+  SDL_Point end;
+  start.x = 18;
+  start.y = 7;
+  end.x = 18;
+  end.y = 17;
+  Monster m1(start, end, running);
+
+  start.x = 2;
+  start. y = 2;
+  end.x = 2;
+  end.y = 7;
+  Monster m2(start, end, running);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -79,6 +95,5 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
-
 
 
