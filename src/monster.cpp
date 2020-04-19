@@ -6,6 +6,8 @@ void Monster::GoMad(){
     bool goBack = false;
     while(running)
     {
+        //protect shared data with renderer class
+        std::unique_lock<std::mutex> lck(mtx);
         if(!goBack)
         {
             pos_y += speed;
@@ -18,6 +20,7 @@ void Monster::GoMad(){
             if(pos_y <= start.y)
                 goBack = false;
         }
+	lck.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 
@@ -28,6 +31,4 @@ Monster::~Monster(){
     monsterThread.join();
     std::cout<<&monsterThread<<" joined, destroying object !!\n";
 }
-
-
 

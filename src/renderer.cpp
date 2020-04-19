@@ -84,8 +84,11 @@ void Renderer::Render(Pacman const pacman, std::vector<SDL_Point> const &food,
     //render monsters
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
     for(auto it=monsters.begin(); it!=monsters.end(); ++it){
+        //protect shared data with monsters threads
+        std::unique_lock<std::mutex> lck(it->get()->mtx);
         monsterBlock.x = it->get()->pos_x * grid_width;
         monsterBlock.y = it->get()->pos_y * grid_height;
+        lck.unlock();
         SDL_RenderFillRect(sdl_renderer, &monsterBlock);
     }
 
@@ -97,8 +100,4 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Pacman Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
-
-
-
-
 

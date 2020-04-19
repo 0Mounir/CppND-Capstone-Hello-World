@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include <thread>
 #include <atomic>
+#include <mutex>
 
 class Monster {
  public:
@@ -17,6 +18,7 @@ class Monster {
   void Release(){monsterThread = std::thread(&Monster::GoMad, this);};
   float pos_x;
   float pos_y;
+  std::mutex mtx;
 
  private:
   SDL_Point start;
